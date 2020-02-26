@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.wangshuo.opencartstore.dto.in.ProductCreateInDTO;
 import com.wangshuo.opencartstore.dto.in.ProductUpdateInDTO;
 import com.wangshuo.opencartstore.dto.out.ProductListOutDTO;
+import com.wangshuo.opencartstore.dto.out.ProductShowOutDTO;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ProductService {
    void batchDelete(List<Integer> productIds);
 
    Page<ProductListOutDTO> search(Integer pageNum);
+
+    ProductShowOutDTO getById(Integer productId);
 }

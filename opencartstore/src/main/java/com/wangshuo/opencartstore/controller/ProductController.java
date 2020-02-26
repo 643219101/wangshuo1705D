@@ -37,8 +37,8 @@ private  ProductService productService;
 
     @GetMapping("/getById")
     public ProductShowOutDTO getById(@RequestParam Integer productId){
-        System.out.println(productId);
-        return null;
+        ProductShowOutDTO productShowOutDTO = productService.getById(productId);
+        return productShowOutDTO;
     }
 
     @PostMapping("/create")
