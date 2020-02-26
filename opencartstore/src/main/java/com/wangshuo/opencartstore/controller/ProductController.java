@@ -49,6 +49,7 @@ private  ProductService productService;
 
     @PostMapping("/delete")
     public void delete(@RequestBody Integer productId){
+        productService.delete(productId);
     }
 
     @PostMapping("/batchDelete")

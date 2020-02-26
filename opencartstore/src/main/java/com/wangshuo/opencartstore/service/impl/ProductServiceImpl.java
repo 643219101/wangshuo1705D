@@ -78,4 +78,10 @@ public class ProductServiceImpl implements ProductService {
 
 
     }
+
+    @Override
+    public void delete(Integer productId) {
+        productMapper.deleteByPrimaryKey(productId);
+        productDetailMapper.deleteByPrimaryKey(productId);
+    }
 }
