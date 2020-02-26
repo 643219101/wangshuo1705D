@@ -54,6 +54,8 @@ private  ProductService productService;
 
     @PostMapping("/batchDelete")
     public void batchDelete(@RequestBody List<Integer> productIds){
+        productService.batchDelete(productIds);
+
     }
 
 }
