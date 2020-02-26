@@ -43,6 +43,8 @@ private  ProductService productService;
 
     @PostMapping("/update")
     public void update(@RequestBody ProductUpdateInDTO productUpdateInDTO){
+        productService.update(productUpdateInDTO);
+
     }
 
     @PostMapping("/delete")
