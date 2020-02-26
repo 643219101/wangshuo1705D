@@ -1,5 +1,6 @@
 package com.wangshuo.opencartstore.controller;
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartstore.dto.in.ProductCreateInDTO;
 import com.wangshuo.opencartstore.dto.in.ProductSearchInDTO;
 import com.wangshuo.opencartstore.dto.in.ProductUpdateInDTO;
@@ -23,10 +24,15 @@ private  ProductService productService;
 
     @GetMapping("/search")
     public PageOutDTO<ProductListOutDTO> search(ProductSearchInDTO productSearchInDTO,
-                                                @RequestParam Integer pageNum){
+                                                @RequestParam(required = false,defaultValue = "1") Integer pageNum){
+        Page<ProductListOutDTO> page = productService.search(pageNum);
+        PageOutDTO<ProductListOutDTO> objectPageOutDTO = new PageOutDTO<>();
+        objectPageOutDTO.setTotal((int) page.getTotal());
+        objectPageOutDTO.setPageSize(page.getPageNum());
+        objectPageOutDTO.setPageNum(page.getPageNum());
+        objectPageOutDTO.setList(page);
 
-
-        return null;
+        return objectPageOutDTO;
     }
 
     @GetMapping("/getById")

@@ -1,10 +1,13 @@
 package com.wangshuo.opencartstore.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartstore.dao.ProductDetailMapper;
 import com.wangshuo.opencartstore.dao.ProductMapper;
 import com.wangshuo.opencartstore.dto.in.ProductCreateInDTO;
 import com.wangshuo.opencartstore.dto.in.ProductUpdateInDTO;
+import com.wangshuo.opencartstore.dto.out.ProductListOutDTO;
 import com.wangshuo.opencartstore.po.Product;
 import com.wangshuo.opencartstore.po.ProductDetail;
 import com.wangshuo.opencartstore.service.ProductService;
@@ -90,5 +93,15 @@ public class ProductServiceImpl implements ProductService {
 
         productMapper.batchDelete(productIds);
         productDetailMapper.batchDelete(productIds);
+    }
+
+    @Override
+    public Page<ProductListOutDTO> search(Integer pageNum) {
+        PageHelper pageHelper=new PageHelper();
+      pageHelper.startPage(pageNum,3);
+
+        Page<ProductListOutDTO> page = productMapper.search();
+
+        return page;
     }
 }
