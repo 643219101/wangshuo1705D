@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductListOutDTO> search(Integer pageNum) {
         PageHelper pageHelper=new PageHelper();
-      pageHelper.startPage(pageNum,3);
+      pageHelper.startPage(pageNum,10);
 
         Page<ProductListOutDTO> page = productMapper.search();
 
