@@ -8,6 +8,7 @@ var app = new Vue({
         stockQuantity: '',
         rewordPoints: '',
         sortOrder: '',
+        productAbstract:'',
         description: '',
         selectedStatus:'',
         selectedMainPic:'',
@@ -122,7 +123,8 @@ var app = new Vue({
                 rewordPoints: this.rewordPoints,
                 sortOrder: this.sortOrder,
                 description: this.description,
-                otherPicUrls: this.otherPicUrls
+                otherPicUrls: this.otherPicUrls,
+                productAbstract:this.productAbstract
             })
             .then(function (response) {
               console.log(response);

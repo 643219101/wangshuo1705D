@@ -11,6 +11,7 @@ public class ProductShowOutDTO {
     private Integer stockQuantity;
     private Byte status;
     private String mainPicUrl;
+    private  String productAbstract;
     private Integer rewordPoints;
     private Integer sortOrder;
     private String description;
@@ -18,6 +19,14 @@ public class ProductShowOutDTO {
 
     public Integer getProductId() {
         return productId;
+    }
+
+    public String getProductAbstract() {
+        return productAbstract;
+    }
+
+    public void setProductAbstract(String productAbstract) {
+        this.productAbstract = productAbstract;
     }
 
     public void setProductId(Integer productId) {
