@@ -32,10 +32,19 @@ var app = new Vue({
       
 
     },
+    mounted(){
+    
+      console.log('view mounted');
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    },
 
     methods:{
             createClick(){
-               console.log('click create')
+               console.log('click create');
+               this.description = tinyMCE.activeEditor.getContent();
+
                this.createProduct();
             },
             handleOnMainChange(val) {

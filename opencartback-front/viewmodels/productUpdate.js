@@ -41,6 +41,9 @@ var app = new Vue({
        }
 
        this.getByID();
+       tinymce.init({
+        selector: '#mytextarea'
+    });
     },
     methods:{
         getByID(){
@@ -73,6 +76,7 @@ var app = new Vue({
 
         createClick(){
            console.log('click create')
+           this.description = tinyMCE.activeEditor.getContent();
            this.updateProduct();
         },
         handleOnMainChange(val) {
