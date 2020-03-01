@@ -1,60 +1,117 @@
 package com.wangshuo.opencartback.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.wangshuo.opencartback.constant.ClientExceptionConstant;
 import com.wangshuo.opencartback.dto.in.*;
-import com.wangshuo.opencartback.dto.out.AdministratorGetProfileOutDTO;
-import com.wangshuo.opencartback.dto.out.AdministratorListOutDTO;
-import com.wangshuo.opencartback.dto.out.AdministratorShowOutDTO;
-import com.wangshuo.opencartback.dto.out.PageOutDTO;
+import com.wangshuo.opencartback.dto.out.*;
+import com.wangshuo.opencartback.exception.ClientException;
+import com.wangshuo.opencartback.po.Administrator;
+import com.wangshuo.opencartback.service.AdministratorService;
+
+import com.wangshuo.opencartback.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/administrator")
 public class AdministratorController {
 
+    @Autowired
+    private AdministratorService administratorService;
+
+
+    @Autowired
+    private JWTUtil jwtUtil;
     @GetMapping("/login")
-    public  String login(AdministratorLoginInDTO administratorLoginInDTO){
+    public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
+        Administrator administrator = administratorService.getByUsername(administratorLoginInDTO.getUsername());
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encPwdDB = administrator.getEncryptedPassword();
+        System.err.println(encPwdDB);
+        BCrypt.Result result = BCrypt.verifyer().verify(administratorLoginInDTO.getPassword().toCharArray(), encPwdDB);
 
-
-        return  null;
+        if (result.verified) {
+            AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
+            return administratorLoginOutDTO;
+        }else {
+            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+        }
     }
 
     @GetMapping("/getProfile")
-    public AdministratorGetProfileOutDTO getProfile(@RequestParam(required = false) Integer adminstratorId){
+    public AdministratorGetProfileOutDTO getProfile(@RequestAttribute Integer administratorId){
+        Administrator administrator = administratorService.getById(administratorId);
+        AdministratorGetProfileOutDTO administratorGetProfileOutDTO = new AdministratorGetProfileOutDTO();
+        administratorGetProfileOutDTO.setAdministratorId(administrator.getAdministratorId());
+        administratorGetProfileOutDTO.setUsername(administrator.getUsername());
+        administratorGetProfileOutDTO.setRealName(administrator.getRealName());
+        administratorGetProfileOutDTO.setEmail(administrator.getEmail());
+        administratorGetProfileOutDTO.setAvatarUrl(administrator.getAvatarUrl());
+        administratorGetProfileOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+
+        return administratorGetProfileOutDTO;
+    }
+
+    @PostMapping("/updateProfile")
+    public void updateProfile(@RequestBody AdministratorUpdateProfileInDTO administratorUpdateProfileInDTO,
+                              @RequestAttribute Integer administratorId){
+        Administrator administrator = new Administrator();
+        administrator.setAdministratorId(administratorId);
+        administrator.setRealName(administratorUpdateProfileInDTO.getRealName());
+        administrator.setEmail(administratorUpdateProfileInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateProfileInDTO.getAvatarUrl());
+        administratorService.update(administrator);
+
+    }
+
+    @PostMapping("/changePwd")
+    public void changePwd(@RequestBody AdministratorChangePwdInDTO administratorChangePwdInDTO,
+                          @RequestAttribute Integer administratorId){
+
+    }
+
+    @GetMapping("/getPwdResetCode")
+    public String getPwdResetCode(@RequestParam String email){
         return null;
     }
 
-    @PostMapping("/updateProdfile")
-    public  void updateProdfile(@RequestBody AdministratorUpdateProfileInDTO administratorUpdateProfileInDTO){
-
-    }
-    @GetMapping("getPwdResetCode")
-    public  String getPwdResetCode(String  email){
-        return  null;
-    }
-
     @PostMapping("/resetPwd")
-     public  void resetPwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
+    public void resetPwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
 
     }
 
-   @GetMapping("/getlist")
-      public PageOutDTO<AdministratorListOutDTO> getlist(@RequestParam Integer pageNum){
-        return  null;
-      }
+    @GetMapping("/getList")
+    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam Integer pageNum){
+        return null;
+    }
 
-      @GetMapping("/getById")
-    public AdministratorShowOutDTO getById(@RequestParam  Integer administratorId){
-            return  null;
-      }
-      @PostMapping("/create")
-      public  Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
-            return  null;
-      }
+    @GetMapping("/getById")
+    public AdministratorShowOutDTO getById(@RequestParam Integer administratorId){
+        return null;
+    }
 
-      @PostMapping("/update")
-    public  void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
+    @PostMapping("/create")
+    public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
+        return null;
+    }
 
-      }
+    @PostMapping("/update")
+    public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
 
+    }
+
+    @PostMapping("/delete")
+    public void delete(@RequestBody Integer adminstratorId){
+
+    }
+
+    @PostMapping("/batchDelete")
+    public void batchDelete(@RequestBody List<Integer> administratorIds){
+
+    }
 
 }

@@ -3,22 +3,11 @@ package com.wangshuo.opencartback.dto.out;
 import java.util.List;
 
 public class PageOutDTO<T> {
-    //总数
-    private Integer total;
-    //一页多少条
+    private Long total;
     private Integer pageSize;
-    //当前得页码是多少
     private Integer pageNum;
-    //list集合
     private List<T> list;
 
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
 
     public Integer getPageSize() {
         return pageSize;
@@ -42,5 +31,13 @@ public class PageOutDTO<T> {
 
     public void setList(List<T> list) {
         this.list = list;
+    }
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
     }
 }
