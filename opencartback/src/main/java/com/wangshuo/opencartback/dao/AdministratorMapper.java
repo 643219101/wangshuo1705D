@@ -1,5 +1,6 @@
 package com.wangshuo.opencartback.dao;
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.po.Administrator;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,9 @@ public interface AdministratorMapper {
 
 
     int batchDelete(@Param("administratorId") List<Integer> administratorId);
+
+
+    Page<Administrator> selectList();
+
+
 }

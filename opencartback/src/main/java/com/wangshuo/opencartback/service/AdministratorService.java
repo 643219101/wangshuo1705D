@@ -1,6 +1,7 @@
 package com.wangshuo.opencartback.service;
 
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.po.Administrator;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface AdministratorService {
 
     void batchDelete(List<Integer> administratorIds);
 
+
+      Page<Administrator> selectList(Integer pageNum);
 }

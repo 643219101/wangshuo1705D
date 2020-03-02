@@ -3,8 +3,18 @@ package com.wangshuo.opencartback.dto.out;
 public class AdministratorListOutDTO {
     private Integer administratorId;
     private String username;
+    private String realName;
+
     private Byte status;
     private Long createTimestamp;
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public Integer getAdministratorId() {
         return administratorId;

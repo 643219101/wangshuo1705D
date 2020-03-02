@@ -1,5 +1,7 @@
 package com.wangshuo.opencartback.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartback.dao.AdministratorMapper;
 import com.wangshuo.opencartback.po.Administrator;
 import com.wangshuo.opencartback.service.AdministratorService;
@@ -45,6 +47,14 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public void batchDelete(List<Integer> administratorIds) {
+
         administratorMapper.batchDelete(administratorIds);
+    }
+
+    @Override
+    public Page<Administrator> selectList(Integer pageNum) {
+        PageHelper.startPage(pageNum,10);
+        Page<Administrator> list = administratorMapper.selectList();
+        return list;
     }
 }

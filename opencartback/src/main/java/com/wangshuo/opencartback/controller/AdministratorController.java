@@ -1,6 +1,7 @@
 package com.wangshuo.opencartback.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.constant.ClientExceptionConstant;
 import com.wangshuo.opencartback.dto.in.*;
 import com.wangshuo.opencartback.dto.out.*;
@@ -13,8 +14,10 @@ import com.wangshuo.opencartback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/administrator")
@@ -88,8 +91,24 @@ public class AdministratorController {
     }
 
     @GetMapping("/getList")
-    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam Integer pageNum){
-        return null;
+    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam(required = false, defaultValue = "1") Integer pageNum){
+        Page<Administrator> page = administratorService.selectList(pageNum);
+        List<AdministratorListOutDTO> collect = page.stream().map(administrator -> {
+            AdministratorListOutDTO administratorListOutDTO = new AdministratorListOutDTO();
+            administratorListOutDTO.setAdministratorId(administrator.getAdministratorId());
+            administratorListOutDTO.setUsername(administrator.getUsername());
+            administratorListOutDTO.setRealName(administrator.getRealName());
+            administratorListOutDTO.setStatus(administrator.getStatus());
+            administratorListOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+            return administratorListOutDTO;
+        }).collect(Collectors.toList());
+
+        PageOutDTO<AdministratorListOutDTO> objectPageOutDTO = new PageOutDTO<>();
+        objectPageOutDTO.setTotal(page.getTotal());
+        objectPageOutDTO.setPageSize(page.getPageSize());
+        objectPageOutDTO.setPageNum(page.getPageNum());
+        objectPageOutDTO.setList(collect);
+    return objectPageOutDTO;
     }
 
     @GetMapping("/getById")
