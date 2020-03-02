@@ -6,7 +6,7 @@ var app = new Vue({
  
     },
     methods:{
-              handleLoginClick(){
+       handleLoginClick(){
                      console.log('login click');
                      this.loginAdministrator();
               },
@@ -20,6 +20,11 @@ var app = new Vue({
                    })
                    .then(function (response) {
                      console.log(response);
+                     var dto=response.data;
+                     localStorage['jcartToken'] = dto.token;
+                     localStorage['expireTimestamp'] = dto.expireTimestamp;
+                     alert('登陆成功');
+
                    })
                    .catch(function (error) {
                      console.log(error);
