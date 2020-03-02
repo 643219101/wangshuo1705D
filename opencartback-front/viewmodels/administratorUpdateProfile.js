@@ -32,6 +32,25 @@ var app = new Vue({
                 console.log(error);
             });
 
+        },
+
+        updateMyProfile(){
+            axios.post('/administrator/updateProfile', {
+                realName: this.realName,
+                email: this.email,
+                avatarUrl: this.avatarUrl,
+
+            })
+                .then(function (response) {
+                    console.log(response);
+                    alert('更新成功');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
         }
 
    }
