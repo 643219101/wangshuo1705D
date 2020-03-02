@@ -7,6 +7,8 @@ import com.wangshuo.opencartback.service.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdministratorServiceImpl implements AdministratorService {
 
@@ -28,5 +30,21 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     public void update(Administrator administrator) {
         administratorMapper.updateByPrimaryKeySelective(administrator);
+    }
+
+    @Override
+    public Integer create(Administrator administrator) {
+        int i = administratorMapper.insertSelective(administrator);
+        return i;
+    }
+
+    @Override
+    public void delete(Integer administratorId) {
+    administratorMapper.deleteByPrimaryKey(administratorId);
+    }
+
+    @Override
+    public void batchDelete(List<Integer> administratorIds) {
+        administratorMapper.batchDelete(administratorIds);
     }
 }

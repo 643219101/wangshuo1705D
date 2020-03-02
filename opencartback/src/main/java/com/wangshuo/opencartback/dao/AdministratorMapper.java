@@ -1,6 +1,9 @@
 package com.wangshuo.opencartback.dao;
 
 import com.wangshuo.opencartback.po.Administrator;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AdministratorMapper {
     int deleteByPrimaryKey(Integer administratorId);
@@ -16,4 +19,7 @@ public interface AdministratorMapper {
     int updateByPrimaryKey(Administrator record);
 
     Administrator selectByUsername(String username);
+
+
+    int batchDelete(@Param("administratorId") List<Integer> administratorId);
 }

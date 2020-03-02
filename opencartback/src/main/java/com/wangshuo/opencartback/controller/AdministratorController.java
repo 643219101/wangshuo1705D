@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.wangshuo.opencartback.constant.ClientExceptionConstant;
 import com.wangshuo.opencartback.dto.in.*;
 import com.wangshuo.opencartback.dto.out.*;
+import com.wangshuo.opencartback.enumeration.AdministratorStatus;
 import com.wangshuo.opencartback.exception.ClientException;
 import com.wangshuo.opencartback.po.Administrator;
 import com.wangshuo.opencartback.service.AdministratorService;
@@ -12,6 +13,7 @@ import com.wangshuo.opencartback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -91,18 +93,52 @@ public class AdministratorController {
     }
 
     @GetMapping("/getById")
-    public AdministratorShowOutDTO getById(@RequestParam Integer administratorId){
-        return null;
+    public AdministratorShowOutDTO getById(@RequestParam Integer administratorId)
+    {
+        Administrator administrator = administratorService.getById(administratorId);
+
+        AdministratorShowOutDTO administratorShowOutDTO = new AdministratorShowOutDTO();
+        administratorShowOutDTO.setAdministratorId(administrator.getAdministratorId());
+        administratorShowOutDTO.setUsername(administrator.getUsername());
+        administratorShowOutDTO.setRealName(administrator.getRealName());
+        administratorShowOutDTO.setEmail(administrator.getEmail());
+        administratorShowOutDTO.setAvatarUrl(administrator.getAvatarUrl());
+        administratorShowOutDTO.setStatus(administrator.getStatus());
+        return administratorShowOutDTO;
     }
 
     @PostMapping("/create")
     public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
-        return null;
+        Administrator administrator = new Administrator();
+        administrator.setUsername(administratorCreateInDTO.getUsername());
+        administrator.setRealName(administratorCreateInDTO.getRealName());
+        administrator.setEmail(administratorCreateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
+        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setCreateTime(new Date());
+
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());
+        administrator.setEncryptedPassword(bcryptHashString);
+
+        Integer administratorId = administratorService.create(administrator);
+
+        return administratorId;
     }
 
     @PostMapping("/update")
     public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
-
+        Administrator administrator = new Administrator();
+        administrator.setAdministratorId(administratorUpdateInDTO.getAdministratorId());
+        administrator.setRealName(administratorUpdateInDTO.getRealName());
+        administrator.setEmail(administratorUpdateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateInDTO.getAvatarUrl());
+        administrator.setStatus(administratorUpdateInDTO.getStatus());
+        String password = administratorUpdateInDTO.getPassword();
+        if (password != null && !password.isEmpty()){
+            String bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+            administrator.setEncryptedPassword(bcryptHashString);
+        }
+        administratorService.update(administrator);
     }
 
     @PostMapping("/delete")
