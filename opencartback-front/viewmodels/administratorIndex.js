@@ -11,6 +11,32 @@ var app = new Vue({
       },
 
     methods:{
+        handleDelete(index,row){
+            console.log('delete one  click')
+            if (confirm("确认删除？")) {
+                this.deleteAdministrator(row.administratorId);
+            }
+
+        },
+        deleteAdministrator(administratorId) {
+            axios.post('/administrator/delete', administratorId, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                    alert('删除成功');
+                    location.reload();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+
+
+
+
         handlePageChange(val){
        console.log('page change',val);
        this.pageNum=val; 
