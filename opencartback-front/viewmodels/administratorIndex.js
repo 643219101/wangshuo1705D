@@ -2,15 +2,39 @@ var app = new Vue({
     el: '#app',
     data: {
           pageInfo:'',
-          pageNum:1
+          pageNum:1,
+          selectedadminIds:[],
 
+    },
+
+    computed:{
+      selectAdminIda(){
+          return this.selectedadminIds.map(a=>a.administratorId);
+      }
     },
       mounted(){
           console.log('view mounted')
             this.getAdministrators();
       },
-
+ 
     methods:{
+        handleSelectionChange(val){
+            console.log('duo xuan kuang change',val);
+            this.selectedadminIds=val;
+
+        },
+        handleBatchDeleteClick(){
+            axios.post('/administrator/batchDelete', this.selectAdminIda)
+                .then(function (response) {
+                    console.log(response);
+                    alert('批删成功');
+                    location.reload();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+          
         handleDelete(index,row){
             console.log('delete one  click')
             if (confirm("确认删除？")) {

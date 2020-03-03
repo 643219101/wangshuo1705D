@@ -136,7 +136,7 @@
   <delete id="batchDelete">
     delete from jcart_administrator
     where administrator_id in
-    <foreach item="item" index="index" collection="administratorIds"
+    <foreach item="item" index="index" collection="administratorId"
              open="(" separator="," close=")">
       #{item}
     </foreach>

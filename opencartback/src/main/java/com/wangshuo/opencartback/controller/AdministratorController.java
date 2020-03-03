@@ -167,7 +167,7 @@ public class AdministratorController {
 
     @PostMapping("/batchDelete")
     public void batchDelete(@RequestBody List<Integer> administratorIds){
-administratorService.batchDelete(administratorIds);
+        administratorService.batchDelete(administratorIds);
     }
 
 }
