@@ -1,7 +1,9 @@
 package com.wangshuo.opencartstore.dao;
 
 import com.wangshuo.opencartstore.po.OrderDetail;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderDetailMapper {
     int deleteByPrimaryKey(Long orderId);
 

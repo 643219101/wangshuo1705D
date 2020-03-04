@@ -1,7 +1,9 @@
 package com.wangshuo.opencartstore.dao;
 
 import com.wangshuo.opencartstore.po.Customer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CustomerMapper {
     int deleteByPrimaryKey(Integer customerId);
 
