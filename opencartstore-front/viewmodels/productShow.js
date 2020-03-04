@@ -37,15 +37,25 @@ var app = new Vue({
     methods: {
         handleAddToCartClick(){
             console.log('handleAddToCartClick');
-            cartProduct = {
-                productId: this.productId,
-                productCode: this.productCode,
-                productName: this.productName,
-                mainPicUrl: this.mainPicUrl,
-                unitPrice: this.price,
-                quantity: this.quantity
-            };
-            this.myShoppingCart.push(cartProduct);
+            var myShoppingCartJson = localStorage['myShoppingCartJson'];
+            this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
+            var cartProduct=this.myShoppingCart.find(p=>p.productId===this.productId);
+            if (cartProduct) {
+                console.log('cart product exist');
+                var originQuantity = parseInt(cartProduct.quantity);
+                var addQuantity = parseInt(this.quantity);
+                cartProduct.quantity = originQuantity + addQuantity;
+            } else {
+                cartProduct = {
+                    productId: this.productId,
+                    productCode: this.productCode,
+                    productName: this.productName,
+                    mainPicUrl: this.mainPicUrl,
+                    unitPrice: this.price,
+                    quantity: this.quantity
+                };
+                this.myShoppingCart.push(cartProduct);
+            }
             localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
             this.$message.success('添加购物车成功');
            
