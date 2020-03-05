@@ -4,6 +4,17 @@ var app = new Vue({
         myShoppingCart:[]
 
     },
+    computed: {
+        totalPrice() {
+            var subTotalPrices = this.myShoppingCart.map(p => {
+                return p.unitPrice * p.discount * p.quantity;
+            });
+            var totalPrice = subTotalPrices.reduce((a, b) => a + b, 0);
+            var totalPriceStr = totalPrice.toFixed(2);
+            totalPrice = parseFloat(totalPriceStr);
+            return totalPrice;
+        }
+    },
     methods:{ 
         handleUpdate(index, row){
             console.log('update click');

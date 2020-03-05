@@ -1,6 +1,8 @@
 var app = new Vue({
     el: '#app',
     data: {
+
+        myAddresses: [],
         shipMethods: [
             { value: 0, label: 'EMS' },
             { value: 1, label: '顺丰' },
@@ -19,6 +21,25 @@ var app = new Vue({
         selectShipMethod: '',
         selectedInvoiceAddredssId: '',
         selectedPayMethod: '',
-   
+        comment: '',
+        myShoppingCart: [],
+        shipPrice: 5.0
+
+    },
+    mounted() {
+        console.log('view mounted');
+        this.getMyAddress();
+    },
+    methods:{
+        getMyAddress() {
+            axios.get('/address/getCustomerAddress')
+                .then(function (response) {
+                    console.log(response);
+                    app.myAddresses = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
     }
 })

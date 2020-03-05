@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/address")
 @CrossOrigin
-
 public class AddressController {
 
 
@@ -45,8 +45,8 @@ public class AddressController {
     }
 
     @GetMapping("/getById")
-    public AddressShowOutDTO getById(@RequestParam Integer addressId){
-        Address address = addressService.getById(addressId);
+    public AddressShowOutDTO getById(@RequestAttribute Integer customerId){
+        Address address = addressService.getById(customerId);
         AddressShowOutDTO addressShowOutDTO = new AddressShowOutDTO();
         addressShowOutDTO.setAddressId(address.getAddressId());
         addressShowOutDTO.setTag(address.getTag());
@@ -56,5 +56,22 @@ public class AddressController {
 
         return addressShowOutDTO;
     }
+    @GetMapping("/getCustomerAddress")
+    public List<AddressListOutDTO> getCustomerAddress(@RequestAttribute Integer customerId){
+        List<Address> addresses = addressService.getByCustomerId(customerId);
+
+        List<AddressListOutDTO> addressListOutDTOS = addresses.stream().map(address -> {
+            AddressListOutDTO addressListOutDTO = new AddressListOutDTO();
+            addressListOutDTO.setAddressId(address.getAddressId());
+            addressListOutDTO.setTag(address.getTag());
+            addressListOutDTO.setReceiverName(address.getReceiverName());
+            addressListOutDTO.setReceiverMobile(address.getReceiverMobile());
+            addressListOutDTO.setContent(address.getContent());
+            return addressListOutDTO;
+        }).collect(Collectors.toList());
+        return addressListOutDTOS;
+    }
+
+
 
 }

@@ -11,10 +11,31 @@
 
 <body>
 <div id="app">
+    <el-select v-model="selectedShipAddressId" placeholder="请选择寄送地址">
+        <el-option v-for="item in myAddresses" :key="item.addressId" :label="item.content" :value="item.addressId">
+        </el-option>
+    </el-select>
+    <br>
+
+    <el-select v-model="selectShipMethod" placeholder="请选择寄送方式">
+        <el-option v-for="item in shipMethods" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+    </el-select>
+    <br>
+
+    <el-select v-model="selectedInvoiceAddredssId" placeholder="请选择发票地址">
+        <el-option v-for="item in myAddresses" :key="item.addressId" :label="item.content" :value="item.addressId">
+        </el-option>
+    </el-select>
+    <br>
+
+    <el-select v-model="selectedPayMethod" placeholder="请选择支付方式">
+        <el-option v-for="item in payMethods" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+    </el-select>
+    
     <el-table :data="myShoppingCart" style="width: 100%">
-        <el-table-column prop="mainPicUrl" label="主图">
-        </el-table-column>
-        <el-table-column prop="productCode" label="商品代号">
+        <el-table-column prop="productCode" label="商品代码">
         </el-table-column>
         <el-table-column prop="productName" label="商品名称">
         </el-table-column>
@@ -27,39 +48,22 @@
                 折后价：{{(scope.row.unitPrice * scope.row.discount).toFixed(2)}}
             </template>
         </el-table-column>
-        <!-- <el-table-column prop="unitPrice" label="单价">
-        </el-table-column> -->
-        <el-table-column label="数量">
-            <template slot-scope="scope">
-                <el-input v-model="scope.row.quantity" type="number" placeholder="请输入数量"></el-input>
-                <el-button size="mini" @click="handleUpdate(scope.$index, scope.row)">修改</el-button>
-            </template>
+        <el-table-column prop="quantity" label="数量">
         </el-table-column>
         <el-table-column label="总计">
             <template slot-scope="scope">
                 {{(scope.row.unitPrice * scope.row.discount * scope.row.quantity).toFixed(2)}}
             </template>
-        </el-table-column>
-        <!-- <el-table-column prop="totalPrice" label="总价格">
-            <template slot-scope="scope">
-                {{(scope.row.unitPrice * scope.row.quantity).toFixed(2)}}
-            </template>
-        </el-table-column> -->
-        <el-table-column label="操作">
-            <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
-       
+        </el-table-column>            
     </el-table>
-     总价：{{totalPrice}}
+
 </div>
 
 <script src="assets/js/axios.min.js"></script>
 <script src="assets/js/common.js"></script>
 <script src="assets/js/vue.js"></script>
 <script src="assets/js/elementui.js"></script>
-<script src="viewmodels/shoppingCart.js"></script>
+<script src="viewmodels/orderCheckOut1.js"></script>
 
 </body>
 
