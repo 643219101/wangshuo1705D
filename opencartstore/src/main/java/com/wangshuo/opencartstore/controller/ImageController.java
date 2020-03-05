@@ -27,7 +27,7 @@ public class ImageController {
         //todo judge with content type
         boolean contains = imageExts.contains(ext);
         if (!contains){
-            throw new ClientException(ClientExceptionConstant.IMAGE_INVALID_ERRCODE, ClientExceptionConstant.IMAGE_INVALID_ERRMSG);
+
         }
         String uuid = UUID.randomUUID().toString();
         String filename = String.format("%s.%s", uuid, ext);

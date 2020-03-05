@@ -74,13 +74,14 @@ private AddressService addressService;
         Date date = new Date();
         order.setCreateTime(date);
         order.setUpdateTime(date);
-        int orderId = orderMapper.insert(order);
+        int orderId = orderMapper.insertSelective(order);
         Long orderid = new Long((long)orderId);
 
 
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(orderid);
         orderDetail.setShipMethod(orderCheckoutInDTO.getShipMethod());
+        orderDetail.setPayMethod(orderCheckoutInDTO.getPayMethod());
         orderDetail.setShipPrice(5.0);
         Address shipAddress = addressService.getById(orderCheckoutInDTO.getShipAddressId());
         orderDetail.setShipAddress(shipAddress.getContent());
