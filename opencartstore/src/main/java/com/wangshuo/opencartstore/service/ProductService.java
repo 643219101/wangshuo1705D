@@ -5,6 +5,7 @@ import com.wangshuo.opencartstore.dto.in.ProductCreateInDTO;
 import com.wangshuo.opencartstore.dto.in.ProductUpdateInDTO;
 import com.wangshuo.opencartstore.dto.out.ProductListOutDTO;
 import com.wangshuo.opencartstore.dto.out.ProductShowOutDTO;
+import com.wangshuo.opencartstore.po.Product;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ProductService {
    Page<ProductListOutDTO> search(Integer pageNum);
 
     ProductShowOutDTO getById(Integer productId);
+
+    Product getProductById(Integer productId);
 }

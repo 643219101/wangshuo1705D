@@ -10,6 +10,7 @@ import com.wangshuo.opencartstore.enumeration.OrderStatus;
 import com.wangshuo.opencartstore.po.Address;
 import com.wangshuo.opencartstore.po.Order;
 import com.wangshuo.opencartstore.po.OrderDetail;
+import com.wangshuo.opencartstore.po.Product;
 import com.wangshuo.opencartstore.service.AddressService;
 import com.wangshuo.opencartstore.service.OrderService;
 import com.wangshuo.opencartstore.service.ProductService;
@@ -39,21 +40,19 @@ private AddressService addressService;
     @Transactional
     public Long checkout(OrderCheckoutInDTO orderCheckoutInDTO,Integer consumerId) {
         List<OrderProductInDTO> orderProductInDTOS = orderCheckoutInDTO.getOrderProducts();
-
-
         List<OrderProductVo> orderProductVOS = orderProductInDTOS.stream().map(orderProductInDTO -> {
-            ProductShowOutDTO orderProductShowOutDTO = productService.getById(orderProductInDTO.getProductId());
+            Product productById = productService.getProductById(orderProductInDTO.getProductId());
             OrderProductVo orderProductVo = new OrderProductVo();
-            orderProductVo.setProductId(orderProductShowOutDTO.getProductId());
-            orderProductVo.setProductCode(orderProductShowOutDTO.getProductCode());
-            orderProductVo.setProductNmae(orderProductShowOutDTO.getProductName());
+            orderProductVo.setProductId(productById.getProductId());
+            orderProductVo.setProductCode(productById.getProductCode());
+            orderProductVo.setProductNmae(productById.getProductName());
             Integer quantity = orderProductInDTO.getQuantity();
             orderProductVo.setQuantity(quantity);
-            Double unitPrice = orderProductShowOutDTO.getPrice() * orderProductShowOutDTO.getDiscount();
+            Double unitPrice = productById.getPrice() * productById.getDiscount();
             orderProductVo.setUnitPrice(unitPrice);
             Double totalPrice=unitPrice*quantity;
             orderProductVo.setTotalPrice(totalPrice);
-            Integer rewordPoints = orderProductShowOutDTO.getRewordPoints();
+            Integer rewordPoints = productById.getRewordPoints();
             orderProductVo.setUnitRewordPoints(rewordPoints);
             Integer totalRewordPoints=rewordPoints*quantity;
             orderProductVo.setTotalRewordPoints(totalRewordPoints);
@@ -75,7 +74,8 @@ private AddressService addressService;
         order.setCreateTime(date);
         order.setUpdateTime(date);
         int orderId = orderMapper.insertSelective(order);
-        Long orderid = new Long((long)orderId);
+        Long orderId1 = order.getOrderId();
+        Long orderid = new Long((long)orderId1);
 
 
         OrderDetail orderDetail = new OrderDetail();
