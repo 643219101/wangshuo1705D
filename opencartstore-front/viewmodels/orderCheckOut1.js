@@ -57,6 +57,10 @@ var app = new Vue({
         this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
     },
     methods:{
+        handleConfirmOrder() {
+            console.log('confirm order click');
+            this.checkoutOrder();
+        },
         getMyAddress() {
             axios.get('/address/getCustomerAddress')
                 .then(function (response) {
@@ -67,6 +71,23 @@ var app = new Vue({
                     console.log(error);
                 });
         },
+        checkoutOrder() {
+            axios.post('/order/checkout', {
+                shipMethod: this.selectShipMethod,
+                shipAddressId: this.selectedShipAddressId,
+                payMethod: this.selectedPayMethod,
+                invoiceAddressId: this.selectedInvoiceAddredssId,
+                comment: this.comment,
+                orderProducts: this.orderProducts
+            })
+                .then(function (response) {
+                    console.log(response);
+                    alert('下单成功');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
        
     }
 })
