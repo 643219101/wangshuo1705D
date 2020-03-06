@@ -88,8 +88,12 @@ private AddressService addressService;
         Address invoiceAddress = addressService.getById(orderCheckoutInDTO.getInvoiceAddressId());
         orderDetail.setInvoiceAddress(invoiceAddress.getContent());
         orderDetail.setInvoicePrice(sumPrice);
+        orderDetail.setComment(orderCheckoutInDTO.getComment());
+        String comment = orderCheckoutInDTO.getComment();
+        System.out.println(comment);
+        orderDetail.setComment(comment);
         orderDetail.setOrderProducts(JSON.toJSONString(orderProductVOS));
-      orderDetailMapper.insertSelective(orderDetail);
+         orderDetailMapper.insertSelective(orderDetail);
         return orderid;
     }
 

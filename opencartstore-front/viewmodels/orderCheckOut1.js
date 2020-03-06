@@ -1,7 +1,6 @@
 var app = new Vue({
     el: '#app',
     data: {
-
         myAddresses: [],
         shipMethods: [
             { value: 0, label: 'EMS' },
@@ -24,7 +23,6 @@ var app = new Vue({
         comment: '',
         myShoppingCart: [],
         shipPrice: 5.0
-
     },
     computed: {
         totalPrice() {
@@ -56,7 +54,7 @@ var app = new Vue({
         var myShoppingCartJson = localStorage['myShoppingCartJson'];
         this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
     },
-    methods:{
+    methods: {
         handleConfirmOrder() {
             console.log('confirm order click');
             this.checkoutOrder();
@@ -88,6 +86,5 @@ var app = new Vue({
                     console.log(error);
                 });
         }
-       
     }
 })

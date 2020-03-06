@@ -56,6 +56,8 @@ public class AddressController {
 
         return addressShowOutDTO;
     }
+
+
     @GetMapping("/getCustomerAddress")
     public List<AddressListOutDTO> getCustomerAddress(@RequestAttribute Integer customerId){
         List<Address> addresses = addressService.getByCustomerId(customerId);
