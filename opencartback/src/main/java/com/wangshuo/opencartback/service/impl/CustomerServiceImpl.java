@@ -3,6 +3,7 @@ package com.wangshuo.opencartback.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartback.dao.CustomerMapper;
+import com.wangshuo.opencartback.dto.in.CustomerSetStatusInDTO;
 import com.wangshuo.opencartback.po.Customer;
 import com.wangshuo.opencartback.service.CustomerService;
 
@@ -28,11 +29,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
-//    @Override
-////    public void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO) {
-////        Customer customer = new Customer();
-////        customer.setCustomerId(customerSetStatusInDTO.getCustomerId());
-////        customer.setStatus(customerSetStatusInDTO.getStatus());
-////        customerMapper.updateByPrimaryKeySelective(customer);
-////    }
+    @Override
+    public void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO) {
+        Customer customer = new Customer();
+       customer.setCustomerId(customerSetStatusInDTO.getCustomerId());
+        customer.setStatus(customerSetStatusInDTO.getStatus());
+        customerMapper.updateByPrimaryKeySelective(customer);
+  }
+
 }

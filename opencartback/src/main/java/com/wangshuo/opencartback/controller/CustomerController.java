@@ -3,6 +3,7 @@ package com.wangshuo.opencartback.controller;
 
 import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.dto.in.CustomerSearchInDTO;
+import com.wangshuo.opencartback.dto.in.CustomerSetStatusInDTO;
 import com.wangshuo.opencartback.dto.out.CustomerListOutDTO;
 import com.wangshuo.opencartback.dto.out.CustomerShowOutDTO;
 import com.wangshuo.opencartback.dto.out.PageOutDTO;
@@ -77,10 +78,10 @@ public class CustomerController {
 
         return customerShowOutDTO;
     }
-
-    @PostMapping("/disable")
-    public void disable(@RequestParam Integer customerId){
-
+    @PostMapping("/setStatus")
+    public void setStatus(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
+        customerService.setStatus(customerSetStatusInDTO);
     }
+
 
 }

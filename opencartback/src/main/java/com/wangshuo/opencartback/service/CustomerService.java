@@ -1,6 +1,7 @@
 package com.wangshuo.opencartback.service;
 
 import com.github.pagehelper.Page;
+import com.wangshuo.opencartback.dto.in.CustomerSetStatusInDTO;
 import com.wangshuo.opencartback.po.Customer;
 
 
@@ -10,6 +11,6 @@ public interface CustomerService {
 
     Customer getById(Integer customerId);
 
-    //void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO);
+    void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO);
 
 }
