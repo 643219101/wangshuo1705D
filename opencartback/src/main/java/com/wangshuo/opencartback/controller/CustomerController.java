@@ -70,7 +70,10 @@ public class CustomerController {
         customerShowOutDTO.setDefaultAddressId(customer.getDefaultAddressId());
 
         Address byId = addressService.getById(customer.getDefaultAddressId());
-        customerShowOutDTO.setDefaultAddress(byId.getContent());
+        if(byId!=null){
+            customerShowOutDTO.setDefaultAddress(byId.getContent());
+
+        }
 
         return customerShowOutDTO;
     }
