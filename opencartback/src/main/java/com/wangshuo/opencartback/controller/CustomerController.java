@@ -6,7 +6,9 @@ import com.wangshuo.opencartback.dto.in.CustomerSearchInDTO;
 import com.wangshuo.opencartback.dto.out.CustomerListOutDTO;
 import com.wangshuo.opencartback.dto.out.CustomerShowOutDTO;
 import com.wangshuo.opencartback.dto.out.PageOutDTO;
+import com.wangshuo.opencartback.po.Address;
 import com.wangshuo.opencartback.po.Customer;
+import com.wangshuo.opencartback.service.AddressService;
 import com.wangshuo.opencartback.service.CustomerService;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private AddressService addressService;
 
 
     @GetMapping("/search")
@@ -50,7 +55,24 @@ public class CustomerController {
 
     @GetMapping("/getById")
     public CustomerShowOutDTO getById(@RequestParam Integer customerId){
-        return null;
+        Customer customer = customerService.getById(customerId);
+        CustomerShowOutDTO customerShowOutDTO = new CustomerShowOutDTO();
+        customerShowOutDTO.setCustomerId(customerId);
+        customerShowOutDTO.setUsername(customer.getUsername());
+        customerShowOutDTO.setRealName(customer.getRealName());
+        customerShowOutDTO.setMobile(customer.getMobile());
+        customerShowOutDTO.setEmail(customer.getEmail());
+        customerShowOutDTO.setAvatarUrl(customer.getAvatarUrl());
+        customerShowOutDTO.setStatus(customer.getStatus());
+        customerShowOutDTO.setRewordPoints(customer.getRewordPoints());
+        customerShowOutDTO.setNewsSubscribed(customer.getNewsSubscribed());
+        customerShowOutDTO.setCreateTimestamp(customer.getCreateTime().getTime());
+        customerShowOutDTO.setDefaultAddressId(customer.getDefaultAddressId());
+
+        Address byId = addressService.getById(customer.getDefaultAddressId());
+        customerShowOutDTO.setDefaultAddress(byId.getContent());
+
+        return customerShowOutDTO;
     }
 
     @PostMapping("/disable")
