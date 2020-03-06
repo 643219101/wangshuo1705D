@@ -1,5 +1,6 @@
 package com.wangshuo.opencartback.dao;
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.po.Customer;
 
 public interface CustomerMapper {
@@ -16,4 +17,6 @@ public interface CustomerMapper {
     int updateByPrimaryKey(Customer record);
 
     Customer selectByUsername(String username);
+
+    Page<Customer> search();
 }

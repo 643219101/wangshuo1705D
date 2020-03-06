@@ -5,6 +5,9 @@ import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartback.dao.OrderDetailMapper;
 import com.wangshuo.opencartback.dao.OrderMapper;
 import com.wangshuo.opencartback.dto.out.OrderListOutDTO;
+import com.wangshuo.opencartback.dto.out.OrderShowOutDTO;
+import com.wangshuo.opencartback.po.Order;
+import com.wangshuo.opencartback.po.OrderDetail;
 import com.wangshuo.opencartback.po.Product;
 import com.wangshuo.opencartback.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +25,16 @@ public class OrderServiceImp implements OrderService {
         PageHelper.startPage(pageNum,10);
         Page<OrderListOutDTO> search = orderMapper.search();
         return search;
+    }
+
+    @Override
+    public OrderShowOutDTO getById(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        OrderDetail orderDetail = orderDetailMapper.selectByPrimaryKey(orderId);
+        OrderShowOutDTO orderShowOutDTO = new OrderShowOutDTO();
+    orderShowOutDTO.setOrderId(orderId);
+    orderShowOutDTO.setCustomerId(order.getCustomerId());
+
+        return null;
     }
 }
