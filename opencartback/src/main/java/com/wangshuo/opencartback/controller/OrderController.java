@@ -34,7 +34,8 @@ public class OrderController {
 
     @GetMapping("/getById")
     public OrderShowOutDTO getById(@RequestParam Long orderId){
-        return null;
+        OrderShowOutDTO byId = orderService.getById(orderId);
+        return byId;
     }
 
     @GetMapping("/getInvoiceInfo")
@@ -42,9 +43,5 @@ public class OrderController {
         return null;
     }
 
-    @GetMapping("/getShipInfo")
-    public OrderShipShowOutDTO getShipInfo(@RequestParam Long orderId){
-        return null;
-    }
 
 }
