@@ -3,22 +3,49 @@ package com.wangshuo.opencartback.controller;
 import com.wangshuo.opencartback.dto.in.OrderHistoryCreateInDTO;
 import com.wangshuo.opencartback.dto.out.OrderHistoryListOutDTO;
 
+import com.wangshuo.opencartback.po.OrderHistory;
+import com.wangshuo.opencartback.service.OrderHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orderhistory")
 public class OrderHistoryController {
-
+@Autowired
+private OrderHistoryService orderHistoryService;
     @GetMapping("/getListByOrderId")
     public List<OrderHistoryListOutDTO> getListByOrderId(@RequestParam Long orderId){
-        return null;
+        List<OrderHistory> byOrderId = orderHistoryService.getByOrderId(orderId);
+        List<OrderHistoryListOutDTO> collect = byOrderId.stream().map(orderHistory -> {
+            OrderHistoryListOutDTO orderHistoryListOutDTO = new OrderHistoryListOutDTO();
+            orderHistoryListOutDTO.setOrderHistoryId(orderHistory.getOrderHistoryId());
+            orderHistoryListOutDTO.setTimestamp(orderHistory.getTime().getTime());
+            orderHistoryListOutDTO.setOrderStatus(orderHistory.getOrderStatus());
+            orderHistoryListOutDTO.setComment(orderHistory.getComment());
+            orderHistoryListOutDTO.setCustomerNotified(orderHistory.getCustomerNotified());
+            return orderHistoryListOutDTO;
+
+        }).collect(Collectors.toList());
+        return collect;
     }
 
     @PostMapping("/create")
-    public Integer create(@RequestBody OrderHistoryCreateInDTO orderHistoryCreateInDTO){
-        return null;
+    public Long create(@RequestBody OrderHistoryCreateInDTO orderHistoryCreateInDTO){
+        OrderHistory orderHistory = new OrderHistory();
+        Long orderId = orderHistoryCreateInDTO.getOrderId();
+        String s = String.valueOf(orderId);
+        int orderid = Integer.parseInt(s);
+        orderHistory.setOrderId(orderid);
+        orderHistory.setTime(new Date());
+        orderHistory.setOrderStatus(orderHistoryCreateInDTO.getOrderStatus());
+        orderHistory.setComment(orderHistoryCreateInDTO.getComment());
+        orderHistory.setCustomerNotified(orderHistoryCreateInDTO.getCustomerNotified());
+        Long createOrder = orderHistoryService.create(orderHistory);
+        return createOrder;
     }
 
 }
