@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin
 public class CustomerController {
 
 
@@ -32,7 +33,7 @@ public class CustomerController {
 
     @GetMapping("/search")
     public PageOutDTO<CustomerListOutDTO> search(CustomerSearchInDTO customerSearchInDTO,
-                                                 @RequestParam Integer pageNum){
+                                                 @RequestParam(required = false,defaultValue = "1") Integer pageNum){
         Page<Customer> page = customerService.search(pageNum);
         List<CustomerListOutDTO> collect = page.stream().map(customer -> {
             CustomerListOutDTO customerListOutDTO = new CustomerListOutDTO();
