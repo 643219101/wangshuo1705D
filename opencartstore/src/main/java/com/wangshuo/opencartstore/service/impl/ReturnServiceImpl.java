@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartstore.dao.ReturnMapper;
 import com.wangshuo.opencartstore.po.Return;
+import com.wangshuo.opencartstore.service.ReturnHistoryService;
 import com.wangshuo.opencartstore.service.ReturnService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class ReturnServiceImpl implements ReturnService {
 
     @Autowired
     private ReturnMapper returnMapper;
+    @Autowired
+    private ReturnHistoryService returnHistoryService;
+
 
     @Override
     public Integer create(Return aReturn) {

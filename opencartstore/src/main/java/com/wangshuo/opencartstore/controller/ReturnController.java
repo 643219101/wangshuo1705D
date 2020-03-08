@@ -3,12 +3,15 @@ package com.wangshuo.opencartstore.controller;
 import com.github.pagehelper.Page;
 import com.wangshuo.opencartstore.dto.in.ReturnApplyInDTO;
 import com.wangshuo.opencartstore.dto.out.PageOutDTO;
+import com.wangshuo.opencartstore.dto.out.ReturnHistoryListOutDTO;
 import com.wangshuo.opencartstore.dto.out.ReturnListOutDTO;
 import com.wangshuo.opencartstore.dto.out.ReturnShowOutDTO;
 
 import com.wangshuo.opencartstore.enumeration.ReturnStatus;
 import com.wangshuo.opencartstore.po.Return;
+import com.wangshuo.opencartstore.po.ReturnHistory;
 import com.wangshuo.opencartstore.service.OrderService;
+import com.wangshuo.opencartstore.service.ReturnHistoryService;
 import com.wangshuo.opencartstore.service.ReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,10 @@ import java.util.stream.Collectors;
 public class ReturnController {
 @Autowired
 private ReturnService returnService;
+
+    @Autowired
+    private ReturnHistoryService returnHistoryService;
+
     @PostMapping("apply")
     public  Integer apply(@RequestBody ReturnApplyInDTO returnApplyInDTO,
                           @RequestAttribute Integer customerId){
@@ -84,7 +91,38 @@ private ReturnService returnService;
 
     @GetMapping("/getById")
     public ReturnShowOutDTO getById(@RequestParam Integer returnId){
-        return null;
+        Return aReturn = returnService.getById(returnId);
+
+        ReturnShowOutDTO returnShowOutDTO = new ReturnShowOutDTO();
+        returnShowOutDTO.setReturnId(aReturn.getReturnId());
+        Long orderId = aReturn.getOrderId();
+        int ii = Integer.parseInt(String.valueOf(orderId));
+        returnShowOutDTO.setOrderId(ii);
+        returnShowOutDTO.setOrderTimestamp(aReturn.getOrderTime().getTime());
+        returnShowOutDTO.setCustomerName(aReturn.getCustomerName());
+        returnShowOutDTO.setMobile(aReturn.getMobile());
+        returnShowOutDTO.setEmail(aReturn.getEmail());
+        returnShowOutDTO.setStatus(aReturn.getStatus());
+        returnShowOutDTO.setAction(aReturn.getAction());
+        returnShowOutDTO.setProductCode(aReturn.getProductCode());
+        returnShowOutDTO.setProductName(aReturn.getProductName());
+        returnShowOutDTO.setQuantity(aReturn.getQuantity());
+        returnShowOutDTO.setReason(aReturn.getReason());
+        returnShowOutDTO.setComment(aReturn.getComment());
+        returnShowOutDTO.setOpened(aReturn.getOpened());
+        returnShowOutDTO.setCreateTimestamp(aReturn.getCreateTime().getTime());
+        returnShowOutDTO.setUpdateTimestamp(aReturn.getUpdateTime().getTime());
+
+        List<ReturnHistory> returnId1 = returnHistoryService.getReturnId(returnId);
+        List<ReturnHistoryListOutDTO> collect = returnId1.stream().map(returnHistory -> {
+            ReturnHistoryListOutDTO returnHistoryListOutDTO = new ReturnHistoryListOutDTO();
+            returnHistoryListOutDTO.setTimestamp(returnHistory.getTime().getTime());
+            returnHistoryListOutDTO.setReturnStatus(returnHistory.getReturnStatus());
+            returnHistoryListOutDTO.setComment(returnHistory.getComment());
+            return returnHistoryListOutDTO;
+        }).collect(Collectors.toList());
+        returnShowOutDTO.setReturnHistories(collect);
+        return returnShowOutDTO;
     }
 
     @PostMapping("/cancel")
