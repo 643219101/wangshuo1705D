@@ -1,7 +1,9 @@
 package com.wangshuo.opencartback.dao;
 
 import com.wangshuo.opencartback.po.Return;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnMapper {
     int deleteByPrimaryKey(Integer returnId);
 
