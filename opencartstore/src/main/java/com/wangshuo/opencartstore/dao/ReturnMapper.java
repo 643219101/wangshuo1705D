@@ -1,6 +1,8 @@
 package com.wangshuo.opencartstore.dao;
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartstore.po.Return;
+import org.apache.ibatis.annotations.Param;
 
 public interface ReturnMapper {
     int deleteByPrimaryKey(Integer returnId);
@@ -14,4 +16,7 @@ public interface ReturnMapper {
     int updateByPrimaryKeySelective(Return record);
 
     int updateByPrimaryKey(Return record);
+
+
+    Page<Return> selectPageByCustomerId(@Param("customerId") Integer customerId);
 }

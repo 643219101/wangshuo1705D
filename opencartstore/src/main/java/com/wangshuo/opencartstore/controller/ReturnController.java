@@ -1,5 +1,6 @@
 package com.wangshuo.opencartstore.controller;
 
+import com.github.pagehelper.Page;
 import com.wangshuo.opencartstore.dto.in.ReturnApplyInDTO;
 import com.wangshuo.opencartstore.dto.out.PageOutDTO;
 import com.wangshuo.opencartstore.dto.out.ReturnListOutDTO;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.nimbus.AbstractRegionPainter;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/return")
@@ -54,8 +57,29 @@ private ReturnService returnService;
 
     @GetMapping("/getList")
     public PageOutDTO<ReturnListOutDTO> getList(@RequestAttribute Integer customerId,
-                                                @RequestParam Integer pageNum){
-        return null;
+                                                @RequestParam(required =false,defaultValue = "1")Integer pageNum){
+        Page<Return> page = returnService.getPageByCustomerId(customerId, pageNum);
+        List<ReturnListOutDTO> collect = page.stream().map(aReturn -> {
+            ReturnListOutDTO returnListOutDTO = new ReturnListOutDTO();
+            returnListOutDTO.setReturnId(aReturn.getReturnId());
+            returnListOutDTO.setOrderId(aReturn.getOrderId());
+            returnListOutDTO.setCustomerId(aReturn.getCustomerId());
+            returnListOutDTO.setCustomerName(aReturn.getCustomerName());
+            returnListOutDTO.setStatus(aReturn.getStatus());
+            returnListOutDTO.setCreateTimestamp(aReturn.getCreateTime().getTime());
+            return returnListOutDTO;
+        }).collect(Collectors.toList());
+
+
+        PageOutDTO<ReturnListOutDTO> pageOutDTO = new PageOutDTO<>();
+        long total = page.getTotal();
+        int a= (int) total;
+        pageOutDTO.setTotal(a);
+       pageOutDTO.setPageSize(page.getPageSize());
+       pageOutDTO.setPageNum(page.getPageNum());
+       pageOutDTO.setList(collect);
+
+        return pageOutDTO;
     }
 
     @GetMapping("/getById")
