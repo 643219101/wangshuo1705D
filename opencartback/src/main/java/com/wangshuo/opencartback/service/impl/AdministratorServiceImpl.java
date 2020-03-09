@@ -30,6 +30,12 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
+    public Administrator getByEmail(String email) {
+        Administrator administrator = administratorMapper.selectByEmail(email);
+        return administrator;
+    }
+
+    @Override
     public void update(Administrator administrator) {
         administratorMapper.updateByPrimaryKeySelective(administrator);
     }

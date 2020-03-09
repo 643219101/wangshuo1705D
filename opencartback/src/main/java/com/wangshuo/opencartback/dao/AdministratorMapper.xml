@@ -25,6 +25,12 @@
     delete from jcart_administrator
     where administrator_id = #{administratorId,jdbcType=INTEGER}
   </delete>
+  <select id="selectByEmail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jcart_administrator
+    where email = #{email}
+  </select>
   <insert id="insert" parameterType="com.wangshuo.opencartback.po.Administrator">
     insert into jcart_administrator (administrator_id, username, real_name, 
       email, encrypted_password, status, 
