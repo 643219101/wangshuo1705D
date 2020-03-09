@@ -1,10 +1,10 @@
 package com.wangshuo.opencartstore.vo;
 
-public class OrderProductVo {
+public class OrderProductVO {
     private  Integer productId;
     private   Integer quantity;
     private  Double unitPrice;
-   private  Double    totalPrice;
+    private  Double    totalPrice;
     private Integer unitRewordPoints;
     private Integer totalRewordPoints;
     private  String productCode;
