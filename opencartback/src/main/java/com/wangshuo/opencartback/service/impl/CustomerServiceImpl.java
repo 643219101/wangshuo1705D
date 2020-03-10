@@ -3,6 +3,7 @@ package com.wangshuo.opencartback.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.wangshuo.opencartback.dao.CustomerMapper;
+import com.wangshuo.opencartback.dto.in.CustomerSearchInDTO;
 import com.wangshuo.opencartback.dto.in.CustomerSetStatusInDTO;
 import com.wangshuo.opencartback.po.Customer;
 import com.wangshuo.opencartback.service.CustomerService;
@@ -17,9 +18,14 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
 
     @Override
-    public Page<Customer> search(Integer pageNum) {
+    public Page<Customer> search(CustomerSearchInDTO customerSearchInDTO, Integer pageNum) {
         PageHelper.startPage(pageNum, 10);
-        Page<Customer> page = customerMapper.search();
+        Page<Customer> page = customerMapper
+                .search(customerSearchInDTO.getUsername(),
+                        customerSearchInDTO.getRealName(),
+                        customerSearchInDTO.getMobile(),
+                        customerSearchInDTO.getEmail(),
+                        customerSearchInDTO.getStatus());
         return page;
     }
 
