@@ -95,7 +95,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/getPwdResetCode")
-    public String getPwdResetCode(@RequestParam String email) throws ClientException {
+    public void getPwdResetCode(@RequestParam String email) throws ClientException {
         Administrator administrator = administratorService.getByEmail(email);
         if (administrator == null){
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
@@ -110,7 +110,7 @@ public class AdministratorController {
         mailSender.send(message);
         //todo send messasge to MQ
         emailcode.put(email, hex);
-        return null;
+
     }
 
     @PostMapping("/resetPwd")
@@ -142,6 +142,7 @@ public class AdministratorController {
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
         administrator.setEncryptedPassword(bcryptHashString);
         administratorService.update(administrator);
+        emailcode.remove(email);
     }
 
     @GetMapping("/getList")

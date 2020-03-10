@@ -3,6 +3,7 @@ package com.wangshuo.opencartback.service;
 
 import com.github.pagehelper.Page;
 import com.wangshuo.opencartback.dto.in.ProductCreateInDTO;
+import com.wangshuo.opencartback.dto.in.ProductSearchInDTO;
 import com.wangshuo.opencartback.dto.in.ProductUpdateInDTO;
 import com.wangshuo.opencartback.dto.out.ProductListOutDTO;
 import com.wangshuo.opencartback.dto.out.ProductShowOutDTO;
@@ -20,7 +21,8 @@ public interface ProductService {
 
     void batchDelete(List<Integer> productIds);
 
-    Page<ProductListOutDTO> search(Integer pageNum);
+    Page<ProductListOutDTO> search(ProductSearchInDTO productSearchInDTO,
+                                   Integer pageNum);
 
     ProductShowOutDTO getById(Integer productId);
 }
