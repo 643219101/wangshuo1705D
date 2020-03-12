@@ -3,6 +3,7 @@ package com.wangshuo.opencartback.controller;
 import com.wangshuo.opencartback.constant.ClientExceptionConstant;
 import com.wangshuo.opencartback.exception.ClientException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,8 @@ import java.util.UUID;
 @RequestMapping("/image")
 @CrossOrigin
 public class ImageController {
-
+@Value("${www.image.baseurl}")
+private  String imageUrl;
     private List<String> imageExts= Arrays.asList("jpg","jpeg","png");
 
     @PostMapping("/upload")
@@ -37,7 +39,7 @@ public class ImageController {
             byte[] data = image.getBytes();
             out.write(data);
         }
-        return filename;
+        return imageUrl+"/"+filename;
     }
 
 }
