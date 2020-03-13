@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        pageInfo:'',
+         pageInfo:'',
          pageNum:1,
          productCode: '',
          productName: '',
@@ -39,6 +39,11 @@ var app = new Vue({
           this.pageNum = val;
           this.searchProduct();
       },
+     
+      handleEdit(index, row) {
+        console.log('product edit click', index, row);
+        location.href ='productUpdate.html?productId='+row.productId;
+    },
 
         searchProduct(){
             axios.get('/product/search', {

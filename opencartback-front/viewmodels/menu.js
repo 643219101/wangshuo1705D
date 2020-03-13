@@ -29,11 +29,11 @@ var app = new Vue({
                 ]
             },
             {
-                name: "用户管理",
+                name: "管理员管理",
                 index: "4",
                 icon: "el-icon-user",
                 menuItems: [
-                    { name: "用户列表", index: "4-5" }
+                    { name: "管理员列表", index: "4-5" }
                 ]
             }
         ]

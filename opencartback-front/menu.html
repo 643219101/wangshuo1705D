@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="assets/css/elementui.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
     <title>Demo</title>
 </head>
 
 <body>
 <div id="app">
     <el-container>
-        <el-header>Wang shuo电商系统</el-header>
+        <el-header  class="productliststyle">Wang shuo电商系统</el-header>
+        <div class="productliststyle2">
         <el-container>
             <el-aside width="200px">
                 <el-menu unique-opened background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
@@ -33,8 +35,12 @@
             <el-main>
 
                 <wangshuo-product-list-page v-if="selectMainPage == '1-1'"></wangshuo-product-list-page>
+                <wangshuo-consumer-list-page v-if="selectMainPage == '2-2'"></wangshuo-consumer-list-page>
+                <wangshuo-administrator-list-page  v-if="selectMainPage == '4-5'"></wangshuo-administrator-list-page>
+
             </el-main>
         </el-container>
+    </div>
     </el-container>
 </div>
 
@@ -44,6 +50,10 @@
 <script src="assets/js/elementui.js"></script>
 <script src="viewmodels/menu.js"></script>
 <script src="page/productlistpage.js"></script>
+<script src="page/consumerlistpage.js"></script>
+<script src="page/administratorlistpage.js"></script>
+
+
 
 
 
