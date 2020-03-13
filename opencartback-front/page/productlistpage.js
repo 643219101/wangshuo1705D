@@ -40,6 +40,16 @@ Vue.component('wangshuo-product-list-page', {
                     {{statuses[scope.row.status].label}}
                 </template>
             </el-table-column>
+
+            <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+
+            </template>
+          </el-table-column>
         </el-table>
 
         <el-pagination layout="prev, pager, next" :total="pageInfo.total" @current-change="handlePageChange">
@@ -85,6 +95,12 @@ Vue.component('wangshuo-product-list-page', {
             this.pageNum = val;
             this.searchProduct();
         },
+        
+      handleEdit(index, row) {
+        console.log('product edit click', index, row);
+        app.jcProductId=row.productId;
+        app.selectMainPage='1-6'
+    },
         searchProduct() {
             axios.get('/product/search', {
                 params: {
