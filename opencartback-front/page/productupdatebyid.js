@@ -1,6 +1,8 @@
 Vue.component('wangshuo-product-update-byid-page', {
     template: `
     <div id="app">
+    <el-button type="primary" @click="shangyijiclick"><<<<<<<<返回上一级</el-button>
+
         <el-input v-model="productCode" placeholder="请输入商品代码" readonly></el-input>
         <el-input v-model="productName" placeholder="请输入商品名称"></el-input>
         <el-input v-model="price" placeholder="请输入价格"></el-input>
@@ -102,6 +104,10 @@ Vue.component('wangshuo-product-update-byid-page', {
     });
     },
     methods:{
+      shangyijiclick(){
+         app.selectMainPage='1-1';
+
+      },
         getByID(){
             axios.get('/product/getById', {
                 params: {

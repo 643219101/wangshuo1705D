@@ -122,6 +122,7 @@ var app = new Vue({
          this.uploadOtherImage();
       },
     
+      
       uploadOtherImage(){
         this.selectedOtherPics.forEach(pic => {
           var formData = new FormData();
