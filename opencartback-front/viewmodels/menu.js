@@ -51,6 +51,11 @@ var app = new Vue({
                         router.push('/customer/search')
                         break;
                     
+                    
+                    case '4-5':
+                        router.push('/administrator/getList')
+                        break;
+                    
                     }
                
         }
