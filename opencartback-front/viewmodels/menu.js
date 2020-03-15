@@ -43,7 +43,13 @@ var app = new Vue({
     methods: {
         handleMenuItemSelect(index, indexPath) {
             console.log('menu item selected', index, indexPath);
-            this.selectMainPage = index;
+            switch (index) {
+                case '1-1':
+                    router.push('/product/search')
+                    break;
+                    
+                    }
+               
         }
     }
 })
