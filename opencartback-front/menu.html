@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/css/elementui.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <title>Demo</title>
+
 </head>
 
 <body>
@@ -33,11 +34,11 @@
                 </el-menu>
             </el-aside>
             <el-main>
-
-                <wangshuo-product-list-page v-if="selectMainPage == '1-1'"></wangshuo-product-list-page>
+                <router-view></router-view>
+                <!-- <wangshuo-product-list-page v-if="selectMainPage == '1-1'"></wangshuo-product-list-page>
                 <wangshuo-consumer-list-page v-if="selectMainPage == '2-2'"></wangshuo-consumer-list-page>
                 <wangshuo-administrator-list-page  v-if="selectMainPage == '4-5'"></wangshuo-administrator-list-page>
-               <wangshuo-product-update-byid-page v-if="selectMainPage == '1-6'"></wangshuo-product-update-byid-page>
+               <wangshuo-product-update-byid-page v-if="selectMainPage == '1-6'"></wangshuo-product-update-byid-page> -->
             </el-main>
         </el-container>
     </div>
@@ -49,11 +50,16 @@
 <script src="assets/js/common.js"></script>
 <script src="assets/js/vue.js"></script>
 <script src="assets/js/elementui.js"></script>
+ <script src="assets/js/vue-router.js"></script> 
+ <script src="route-page/product-search-route-page.js"></script>
+<script src="route-page/router.js"></script>
 <script src="viewmodels/menu.js"></script>
-<script src="page/productlistpage.js"></script>
+
+
+<!-- <script src="page/productlistpage.js"></script>
 <script src="page/consumerlistpage.js"></script>
 <script src="page/administratorlistpage.js"></script>
-<script src="page/productupdatebyid.js"></script>
+<script src="page/productupdatebyid.js"></script> -->
 
 
 
