@@ -25,6 +25,8 @@ const consumerlistpage = {
         </el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
+            <router-link :to="'/customer/show/'+scope.row.customerId">编辑</router-link>
+
                 <el-button type="primary" size="mini" @click="handleUpdateStatus(scope.$index, scope.row)">更新状态</el-button>
             </template>
         </el-table-column>

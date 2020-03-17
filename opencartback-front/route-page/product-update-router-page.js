@@ -1,6 +1,9 @@
 const productlistupdaterouter = {
     template: `
     <div id="app">
+    <el-button type="primary" @click="handleCreateClick">添加商品</el-button>
+        <br><br>
+      
     <el-button type="primary" @click="shangyijiclick"><<<<<<<<返回上一级</el-button>
 
         <el-input v-model="productCode" placeholder="请输入商品代码" readonly></el-input>
@@ -104,9 +107,15 @@ const productlistupdaterouter = {
         selector: '#mytextarea' 
     });
     },
+    
     methods:{
+      handleCreateClick(){
+        this.$router.push('/product/create');
+    },
+    
       shangyijiclick(){
          app.selectMainPage='1-1';
+         this.$router.push('/product/search');
 
       },
         getByID(){
