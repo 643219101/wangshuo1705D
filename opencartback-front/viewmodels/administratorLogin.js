@@ -2,13 +2,25 @@ var app = new Vue({
     el: '#app',
     data: {
            username:'',
-           password:''
+           password:'',
+           counter:60,
+           buttonEnabled: false,
+
  
     },
     methods:{
        handleLoginClick(){
                      console.log('login click');
                      this.loginAdministrator();
+                    
+                     
+
+                     setInterval(function () {
+                      console.log('count down');
+                      app.counter--;
+                      app.buttonEnabled = true;
+                     
+                  }, 1000);
               },
 
            loginAdministrator(){

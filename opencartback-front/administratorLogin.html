@@ -14,7 +14,9 @@
     <el-input v-model="username" placeholder="请输入账号"></el-input>
     <el-input v-model="password" type="password" placeholder="请输入密码"></el-input>
     <el-button type="primary" @click="handleLoginClick">登陆</el-button>
-
+    <div v-show="buttonEnabled">
+        {{counter}}秒
+    </div>
 
 </div>
 

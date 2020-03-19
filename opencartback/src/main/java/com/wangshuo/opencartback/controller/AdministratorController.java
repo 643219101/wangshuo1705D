@@ -14,6 +14,7 @@ import com.wangshuo.opencartback.util.EmailUtil;
 import com.wangshuo.opencartback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.xml.bind.DatatypeConverter;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,8 +41,11 @@ public class AdministratorController {
     // 用多线程 进行发送邮件 提高效率
     @Autowired
     private EmailUtil emailUtil;
+@Autowired
+private RedisTemplate redisTemplate;
 
-     private Map<String,String> emailcode=new HashMap<>();
+
+//     private Map<String,String> emailcode=new HashMap<>();
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -107,9 +112,12 @@ public class AdministratorController {
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String  hex= DatatypeConverter.printHexBinary(bytes);
-          emailUtil.sendEmail(fromEmail,email,hex);
+        emailUtil.sendEmail(fromEmail,email,hex);
         //todo send messasge to MQ
-        emailcode.put(email, hex);
+        //设置过期时间
+        redisTemplate.opsForValue().set("EmailRedis"+email,hex,1L, TimeUnit.MINUTES);
+
+//        emailcode.put(email, hex);
 
     }
 
@@ -119,7 +127,8 @@ public class AdministratorController {
         if (email == null) {
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_EMAIL_NONE_ERRMSG);
         }
-        String innerResetCode = emailcode.get(email);
+        String innerResetCode = (String) redisTemplate.opsForValue().get("EmailRedis" + email);
+//        String innerResetCode = emailcode.get(email);
         if (innerResetCode == null) {
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_PWDRESET_INNER_RESETCODE_NONE_ERRMSG);
         }
@@ -142,7 +151,8 @@ public class AdministratorController {
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
         administrator.setEncryptedPassword(bcryptHashString);
         administratorService.update(administrator);
-        emailcode.remove(email);
+        redisTemplate.delete("EmailRedis"+email);
+//        emailcode.remove(email);
     }
 
     @GetMapping("/getList")
