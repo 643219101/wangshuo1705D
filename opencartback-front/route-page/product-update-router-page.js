@@ -114,7 +114,6 @@ const productlistupdaterouter = {
     },
     
       shangyijiclick(){
-         app.selectMainPage='1-1';
          this.$router.push('/product/search');
 
       },

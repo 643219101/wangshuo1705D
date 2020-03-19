@@ -1,5 +1,6 @@
 const consumershowrouterpage = {
     template: `<div id="app">
+    <el-button type="primary" @click="shangyijiclick"><<<<<<<<返回上一级</el-button>
 
     客户用户名：{{username}} <br>
     客户姓名：{{realName}} <br>
@@ -40,6 +41,10 @@ mounted(){
     this.getCustomerById();
 },
 methods: {
+    shangyijiclick(){
+        this.$router.push('/customer/search');
+
+     },
     getCustomerById() {
         axios.get('/customer/getById', {
             params: {

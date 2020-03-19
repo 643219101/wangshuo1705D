@@ -10,6 +10,7 @@ import com.wangshuo.opencartback.exception.ClientException;
 import com.wangshuo.opencartback.po.Administrator;
 import com.wangshuo.opencartback.service.AdministratorService;
 
+import com.wangshuo.opencartback.util.EmailUtil;
 import com.wangshuo.opencartback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,10 @@ public class AdministratorController {
      private SecureRandom secureRandom;
     @Autowired
     private JavaMailSender mailSender;
+
+    // 用多线程 进行发送邮件 提高效率
+    @Autowired
+    private EmailUtil emailUtil;
 
      private Map<String,String> emailcode=new HashMap<>();
 
@@ -101,13 +106,8 @@ public class AdministratorController {
             throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
         }
         byte[] bytes = secureRandom.generateSeed(3);
-        String hex = DatatypeConverter.printHexBinary(bytes);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject("wangshuo管理端管理员密码重置");
-        message.setText(hex);
-        mailSender.send(message);
+        String  hex= DatatypeConverter.printHexBinary(bytes);
+          emailUtil.sendEmail(fromEmail,email,hex);
         //todo send messasge to MQ
         emailcode.put(email, hex);
 
