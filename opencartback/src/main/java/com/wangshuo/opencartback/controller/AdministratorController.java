@@ -7,11 +7,13 @@ import com.wangshuo.opencartback.dto.in.*;
 import com.wangshuo.opencartback.dto.out.*;
 import com.wangshuo.opencartback.enumeration.AdministratorStatus;
 import com.wangshuo.opencartback.exception.ClientException;
+import com.wangshuo.opencartback.mq.Email;
 import com.wangshuo.opencartback.po.Administrator;
 import com.wangshuo.opencartback.service.AdministratorService;
 
 import com.wangshuo.opencartback.util.EmailUtil;
 import com.wangshuo.opencartback.util.JWTUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,7 +39,8 @@ public class AdministratorController {
      private SecureRandom secureRandom;
     @Autowired
     private JavaMailSender mailSender;
-
+@Autowired
+private RocketMQTemplate rocketMQTemplate;
     // 用多线程 进行发送邮件 提高效率
     @Autowired
     private EmailUtil emailUtil;
@@ -112,10 +115,16 @@ private RedisTemplate redisTemplate;
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String  hex= DatatypeConverter.printHexBinary(bytes);
-        emailUtil.sendEmail(fromEmail,email,hex);
+//        emailUtil.sendEmail(fromEmail,email,hex);
         //todo send messasge to MQ
         //设置过期时间
-        redisTemplate.opsForValue().set("EmailRedis"+email,hex,1L, TimeUnit.MINUTES);
+        Email email1 = new Email();
+       email1.setToEmail(email);
+       email1.setTitle("密码重置");
+       email1.setContent(hex);
+       rocketMQTemplate.convertAndSend("sendPwdByEmail",email1);
+    //reids  缓存
+//        redisTemplate.opsForValue().set("EmailRedis"+email,hex,1L, TimeUnit.MINUTES);
 
 //        emailcode.put(email, hex);
 
